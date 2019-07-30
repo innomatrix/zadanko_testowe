@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {gmapApi} from 'vue2-google-maps'
+// import {gmapApi} from 'vue2-google-maps'
 import {GmapMarker} from 'vue2-google-maps/src/components/marker'
 export default {
     name: 'Gmap',
@@ -28,9 +28,9 @@ export default {
             markerPosition: null
         }
     },
-    computed: {
-        google: gmapApi
-    },
+    // computed: {
+    //     google: gmapApi
+    // },
     methods: {
 
         // https://laracasts.com/discuss/channels/vue/vue-google-maps-and-foreach-statment-on-markers

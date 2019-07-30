@@ -1,0 +1,11 @@
+<ul>
+    <li>Date: {{ dt|date('Y-m-d H:i:s') }}</li>
+    <li>Lat: {{ coord.lat }}</li>
+    <li>Lon: {{ coord.lon }}</li>
+    <li>Place: {{ sys.country }} - {{ name }}</li>
+    <li>Current temp: {{ main.temp|number_format(2) }}</li>
+    <li>Max temp: {{ main.temp_max|number_format(2) }}</li>
+    <li>Min temp: {{ main.temp_min|number_format(2) }}</li>
+    <li>Wind: speed - {{ wind.speed}} and deg - {{ wind.deg }}</li>
+    <li>Description: {{ weather.0.description }}</li>
+</ul>

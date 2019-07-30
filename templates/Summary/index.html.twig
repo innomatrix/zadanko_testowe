@@ -1,0 +1,83 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Summary{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Summary weather</h1>
+        <h2>Last 10 requests</h2>
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Time requests</th>
+                <th scope="col">Coordinates</th>
+                <th scope="col">Location</th>
+                <th scope="col">Current</th>
+                <th scope="col">Maximum</th>
+                <th scope="col">Minimum</th>
+                <th scope="col">Wind</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set iterator = 0 %}
+            {% for request in last_requests %}
+                {% set iterator = iterator + 1  %}
+            <tr>
+                <th scope="row">{{ iterator }}</th>
+                <td>{{ request.time|date('Y-m-d H:i:s') }}</td>
+                <td>lat: {{ request.lat }} <br /> lon: {{ request.log }}</td>
+                <td>{{ request.country }} / {{ request.city }}</td>
+                <td>{{ request.curtemp|number_format(2) }}</td>
+                <td>{{ request.maxtemp|number_format(2) }}</td>
+                <td>{{ request.mintemp|number_format(2) }}</td>
+                <td>{{ request.wind }}</td>
+                <td>{{ request.description }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Statistic</h2>
+
+        <table class="table table-bordered table-dark">
+            <tbody>
+            <tr>
+                <th scope="row">Total Items</th>
+                <td>{{ statistic.total_items }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Max value of max temp</th>
+                <td>{{ statistic.max_maxtemp|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Min value of max temp</th>
+                <td>{{ statistic.min_maxtemp|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Average value of max temp</th>
+                <td>{{ statistic.avg_maxtemp|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Max value of min temp</th>
+                <td>{{ statistic.max_mintemp|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Min value of min temp</th>
+                <td>{{ statistic.min_mintemp|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Average value of min temp</th>
+                <td>{{ statistic.avg_mintemp|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Most used city</th>
+                <td>{{ statistic.city }} ({{ statistic.most_used }} times)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

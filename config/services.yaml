@@ -4,6 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    # configuration of OpenWeatherMap service
+    app.openweathermap_api: 903fb273502afa754799370f0cb9f0a8
+    app.openweathermap_units: metric #standard|metric|imperial, see please https://openweathermap.org/weather-data
+    # Multilingual support, see please https://openweathermap.org/current#multi
+    app.openweathermap_lang: en
 
 services:
     # default configuration for services in *this* file
