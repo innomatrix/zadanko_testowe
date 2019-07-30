@@ -29,10 +29,19 @@ class Kernel extends BaseKernel
     {
         return \dirname(__DIR__);
     }
+    public function getCacheDir()
+    {
+        return $this->getProjectDir().'/var/cache/'.$this->environment;
+    }
+    public function getLogDir()
+    {
+        return $this->getProjectDir().'/var/log';
+    }    
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $container->addResource(new FileResource($this->getProjectDir().'/config/bundles.php'));
+        $container->setParameter('container.autowiring.strict_mode', true);
         $container->setParameter('container.dumper.inline_class_loader', true);
         $confDir = $this->getProjectDir().'/config';
 
