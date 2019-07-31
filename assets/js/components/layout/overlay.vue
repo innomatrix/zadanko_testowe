@@ -12,6 +12,7 @@
     import Loading from 'vue-loading-overlay';
     // Import stylesheet
     import 'vue-loading-overlay/dist/vue-loading.css';
+    import {mapState} from 'vuex'
     
     export default {
         data() {
@@ -22,7 +23,7 @@
         }, 
     computed: {
         isLoading: function() { // computed property will be updated when async call resolves
-        return this.$store.state.isLoading;
+            return this.$store.state.isLoading;
         }
     },
     //   watch: { // watch changes here
@@ -35,13 +36,6 @@
             Loading
         },
         methods: {
-            doAjax() {
-                this.isLoading = true;
-                // simulate AJAX
-                setTimeout(() => {
-                  this.isLoading = false
-                },5000)
-            },
             onCancel() {
               console.log('User cancelled the loader.')
             }

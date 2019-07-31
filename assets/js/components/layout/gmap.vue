@@ -5,12 +5,11 @@
         :zoom="7"
         map-type-id="terrain"
         style="width: 500px; height: 300px"
-
         @click="dajMnieTenMarker($event)">
 
-
         <GmapInfoWindow 
-            v-if="markerPosition !== null"
+            v-if="weatherInfo !== undefined"
+            :opened="info_open"
             ref="mojeInfo"
             :options="{pixelOffset: {width: 0,height: -35}}" 
             :position="markerPosition"
@@ -29,10 +28,6 @@
         />
     </GmapMap>
 </template>
-//        v-on:bounds_changed="setIsLoading(false)"
-
-            // :opened="infoWinOpen"
-            // @closeclick="infoWinOpen=false"
 
 <script>
 // import {gmapApi} from 'vue2-google-maps'
@@ -46,12 +41,11 @@ export default {
     data() {
         return  {
             markerPosition: null,
-            window_open: false
+            info_open: false
         }
     },
     computed: {...mapState(['isLoading', 'weatherInfo'])},
     methods: {
-
         // https://laracasts.com/discuss/channels/vue/vue-google-maps-and-foreach-statment-on-markers
         ...mapActions([
             'setIsLoading', 
@@ -63,29 +57,11 @@ export default {
             this.getWeatherInfo({'lat': marker.latLng.lat(), 'lng': marker.latLng.lng()}).then(() => {
                 this.wyswietlMnieToPogodoweInfo();
             })
-            // this.getWeatherInfo({'lat': marker.latLng.lat(), 'lng': marker.latLng.lng()})
-            // this.wyswietlMnieToPogodoweInfo();
         },
         wyswietlMnieToPogodoweInfo: function() {
-            // console.log(this.weatherInfo);
-            this.window_open = true;
+            this.info_open = true;
             this.setIsLoading(false);
         }
-        // toggleInfoWindow: function(marker, idx) {
-
-            // this.infoWindowPos = marker.position;
-            // this.infoContent = marker.infoText;
-
-            // //check if its the same marker that was selected if yes toggle
-            // if (this.currentMidx == idx) {
-            //     this.infoWinOpen = !this.infoWinOpen;
-            // }
-            // //if different marker set infowindow to open and reset current marker index
-            // else {
-            //     this.infoWinOpen = true;
-            //     this.currentMidx = idx;
-            // }
-        // }
     },    
 }
 </script>

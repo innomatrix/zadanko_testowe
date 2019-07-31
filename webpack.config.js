@@ -6,7 +6,7 @@ Encore
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())
     .addEntry('app', './assets/js/app.js')
-    .enableSassLoader(function (sassOptions) {
+    .enableSassLoader(function () {
     }, {
         resolveUrlLoader: false,
     })

@@ -1,11 +1,9 @@
-<ul>
-    <li>Date: {{ dt|date('Y-m-d H:i:s') }}</li>
-    <li>Lat: {{ coord.lat }}</li>
-    <li>Lon: {{ coord.lon }}</li>
-    <li>Place: {{ sys.country }} - {{ name }}</li>
-    <li>Current temp: {{ main.temp|number_format(2) }}</li>
-    <li>Max temp: {{ main.temp_max|number_format(2) }}</li>
-    <li>Min temp: {{ main.temp_min|number_format(2) }}</li>
-    <li>Wind: speed - {{ wind.speed}} and deg - {{ wind.deg }}</li>
-    <li>Description: {{ weather.0.description }}</li>
-</ul>
+Date: {{ dt|date('Y-m-d H:i:s') }}
+Lat: {{ coord.lat }}
+Lon: {{ coord.lon }}
+Place: {{ sys.country }} - {{ name }}
+Current temp: {{ main.temp|number_format(2) }}
+Max temp: {{ main.temp_max|number_format(2) }}
+Min temp: {{ main.temp_min|number_format(2) }}
+Wind: speed - {{ wind.speed}} and deg - {{ wind.deg }}
+Description: {{ weather.0.description }}

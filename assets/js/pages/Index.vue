@@ -1,9 +1,9 @@
 <template>
     <div>
         <VueLoading></VueLoading>
-        <h1>Hello Mela :)</h1>
+        <h1>Hello Webmasters :)</h1>
+        <router-link :to="{ name: 'staty'}">Switch to STATS</router-link>
         <Gmap></Gmap>
-        <!-- <Loader></Loader> -->
     </div>
 </template>
 
@@ -12,7 +12,7 @@
     import VueLoading from "../components/layout/overlay";
     import Gmap from "../components/layout/gmap";
     export default {
-        name: "Index",
+        name: "index",
         components: {Loader, Gmap, VueLoading}
     }
 </script>

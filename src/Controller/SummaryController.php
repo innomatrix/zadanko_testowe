@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\Query;
 
 class SummaryController extends Controller
 {
     /**
-     * @Route("summary")
+     * @Route("summary/{page}", defaults={"page"=1}, requirements={"page"="\d+"})
      */
     public function indexAction()
     {
@@ -25,7 +27,7 @@ class SummaryController extends Controller
             ->getQuery();
 
         //get last entries
-       $last_requests = $query->getResult();
+       $last_requests = $query->getResult(Query::HYDRATE_ARRAY);
 
         //prepare query for common statistic
         $query = $repository->createQueryBuilder('stat')
@@ -61,10 +63,21 @@ class SummaryController extends Controller
         //merge statistics array
         $stats = array_merge($common_stat, $most_used_city);
 
-        //render results to view
-        return $this->render('@App/Summary/index.html.twig', array(
-            'last_requests' => $last_requests,
-            'statistic' => $stats
-        ));
+        //return JSON response for JS handling
+        return new JsonResponse(
+            array(
+                'status' => true,
+                'response' => [
+                    'last_requests' => $last_requests,
+                    'statistic' => $stats
+                ]
+            )
+        );
+
+        // //render results to view
+        // return $this->render('@App/Summary/index.html.twig', array(
+        //     'last_requests' => $last_requests,
+        //     'statistic' => $stats
+        // ));
     }
 }

@@ -1,8 +1,8 @@
 # index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-pageNotFound:
-    path:  /{path}
-    controller: App\Controller\PageNotFoundController:pageNotFound
-    requirements:
-        path: .*
+# pageNotFound:
+#     path:  /{path}
+#     controller: App\Controller\PageNotFoundController:pageNotFound
+#     requirements:
+#         path: .*
