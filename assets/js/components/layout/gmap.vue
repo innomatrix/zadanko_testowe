@@ -5,11 +5,23 @@
         :zoom="7"
         map-type-id="terrain"
         style="width: 500px; height: 300px"
-        @click="dajMnieTenMarker($event.latLng)"
-    >
+
+        @click="dajMnieTenMarker($event)">
+
+
+        <GmapInfoWindow 
+            v-if="markerPosition !== null"
+            ref="mojeInfo"
+            :options="{pixelOffset: {width: 0,height: -35}}" 
+            :position="markerPosition"
+            :zIndex="99999999999">
+
+                {{ this.weatherInfo }}
+        </GmapInfoWindow>
+
         <GmapMarker 
             v-if="markerPosition !== null"
-            ref="mojaMarker"
+            ref="mojMarker"
             :position="markerPosition"
             :clickable="true"
             :draggable="true"
@@ -17,28 +29,48 @@
         />
     </GmapMap>
 </template>
+//        v-on:bounds_changed="setIsLoading(false)"
+
+            // :opened="infoWinOpen"
+            // @closeclick="infoWinOpen=false"
 
 <script>
 // import {gmapApi} from 'vue2-google-maps'
-import {GmapMarker} from 'vue2-google-maps/src/components/marker'
+// import {GmapMarker} from 'vue2-google-maps/src/components/marker'
+// import {GmapInfoWindow} from 'vue2-google-maps/src/components/infoWindow'
+import {mapState} from 'vuex'
+import {mapActions} from 'vuex'
+
 export default {
     name: 'Gmap',
     data() {
         return  {
-            markerPosition: null
+            markerPosition: null,
+            window_open: false
         }
     },
-    // computed: {
-    //     google: gmapApi
-    // },
+    computed: {...mapState(['isLoading', 'weatherInfo'])},
     methods: {
 
         // https://laracasts.com/discuss/channels/vue/vue-google-maps-and-foreach-statment-on-markers
-
-        dajMnieTenMarker: function(position) {
-            this.markerPosition = position;
+        ...mapActions([
+            'setIsLoading', 
+            'getWeatherInfo' 
+        ]), 
+        dajMnieTenMarker: function(marker) {
+            this.setIsLoading(true);
+            this.markerPosition = marker.latLng;
+            this.getWeatherInfo({'lat': marker.latLng.lat(), 'lng': marker.latLng.lng()}).then(() => {
+                this.wyswietlMnieToPogodoweInfo();
+            })
+            // this.getWeatherInfo({'lat': marker.latLng.lat(), 'lng': marker.latLng.lng()})
+            // this.wyswietlMnieToPogodoweInfo();
+        },
+        wyswietlMnieToPogodoweInfo: function() {
+            // console.log(this.weatherInfo);
+            this.window_open = true;
+            this.setIsLoading(false);
         }
-
         // toggleInfoWindow: function(marker, idx) {
 
             // this.infoWindowPos = marker.position;

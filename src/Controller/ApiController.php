@@ -60,7 +60,7 @@ class ApiController extends Controller
             $entityManager->flush();
 
             //prepare new template of modal for JSON
-            $template = $this->get('twig')->render('@App/Api/get_data.html.twig', $data);
+            $template = $this->get('twig')->render('Api/get_data.html.twig', $data);
 
             //return JSON response for JS handling
             return new JsonResponse(
