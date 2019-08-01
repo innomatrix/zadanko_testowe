@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Api;
+use App\Entity\Hydrators\ApiHydrator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Doctrine\ORM\Query;
 
 class SummaryController extends Controller
 {
@@ -15,21 +15,17 @@ class SummaryController extends Controller
      */
     public function indexAction()
     {
-
-        //get repository of Api table
         $repository = $this->getDoctrine()
             ->getRepository(Api::class);
 
-        //prepare query for requesting last entries
         $query = $repository->createQueryBuilder('last')
             ->orderBy('last.id', 'DESC')
             ->setMaxResults(10)
             ->getQuery();
 
-        //get last entries
-       $last_requests = $query->getResult(Query::HYDRATE_ARRAY);
+        // tu uzyjemy wlasnego HYDRATORA zeby splaszczyc obiekt DateTime z kolumy 'time' do STRING w wybranym formacie ("2019-07-31 15:03:19 (UTC)")
+        $last_requests = $query->getResult('ApiHydrator');
 
-        //prepare query for common statistic
         $query = $repository->createQueryBuilder('stat')
             ->select(
                 'COUNT(stat.id) AS total_items',
@@ -42,10 +38,8 @@ class SummaryController extends Controller
             )
             ->getQuery();
 
-        //get entry of common results
         $common_stat = $query->getResult()[0];
 
-        //prepare query for most used city from DB
         $query = $repository->createQueryBuilder('city')
             ->select('city.city, COUNT(city.id) most_used')
             ->groupBy('city.city')
@@ -53,17 +47,14 @@ class SummaryController extends Controller
             ->setMaxResults(1)
             ->getQuery();
 
-        //get entry of the most used city from DB
         $most_used_city = $query->getResult();
 
         if (!empty($most_used_city)) {
             $most_used_city = $most_used_city[0];
         }
 
-        //merge statistics array
         $stats = array_merge($common_stat, $most_used_city);
 
-        //return JSON response for JS handling
         return new JsonResponse(
             array(
                 'status' => true,
@@ -73,11 +64,5 @@ class SummaryController extends Controller
                 ]
             )
         );
-
-        // //render results to view
-        // return $this->render('@App/Summary/index.html.twig', array(
-        //     'last_requests' => $last_requests,
-        //     'statistic' => $stats
-        // ));
     }
 }

@@ -1,25 +1,27 @@
 <template>
     <GmapMap
         ref="mojaMapka"
-        :center="{lat:10, lng:10}"
-        :zoom="7"
+        :center="{lat:50.174, lng:18.915}"
+        :zoom="14"
         map-type-id="terrain"
-        style="width: 500px; height: 300px"
+        style="width: 500px; height: 300px; color: black;"
         @click="dajMnieTenMarker($event)">
 
         <GmapInfoWindow 
-            v-if="weatherInfo !== undefined"
+            v-if="weatherInfo.name"
             :opened="info_open"
             ref="mojeInfo"
             :options="{pixelOffset: {width: 0,height: -35}}" 
             :position="markerPosition"
-            :zIndex="99999999999">
-
-                {{ this.weatherInfo }}
+            :zIndex="99999999999"
+        >
+            <b>{{ this.weatherInfo.name }}, {{ this.weatherInfo.sys.country }}</b><br/>
+            Temp: {{ this.weatherInfo.main.temp }} &#x2103;<br/>
+            Pogoda: {{ this.weatherInfo.weather[0].description }}
         </GmapInfoWindow>
 
         <GmapMarker 
-            v-if="markerPosition !== null"
+            v-if="markerPosition"
             ref="mojMarker"
             :position="markerPosition"
             :clickable="true"
@@ -30,9 +32,6 @@
 </template>
 
 <script>
-// import {gmapApi} from 'vue2-google-maps'
-// import {GmapMarker} from 'vue2-google-maps/src/components/marker'
-// import {GmapInfoWindow} from 'vue2-google-maps/src/components/infoWindow'
 import {mapState} from 'vuex'
 import {mapActions} from 'vuex'
 
@@ -44,9 +43,8 @@ export default {
             info_open: false
         }
     },
-    computed: {...mapState(['isLoading', 'weatherInfo'])},
+    computed: {...mapState(['weatherInfo'])},
     methods: {
-        // https://laracasts.com/discuss/channels/vue/vue-google-maps-and-foreach-statment-on-markers
         ...mapActions([
             'setIsLoading', 
             'getWeatherInfo' 
@@ -54,7 +52,7 @@ export default {
         dajMnieTenMarker: function(marker) {
             this.setIsLoading(true);
             this.markerPosition = marker.latLng;
-            this.getWeatherInfo({'lat': marker.latLng.lat(), 'lng': marker.latLng.lng()}).then(() => {
+            this.getWeatherInfo({'lat': marker.latLng.lat(), 'lng': marker.latLng.lng(), 'persist': 1}).then(() => {
                 this.wyswietlMnieToPogodoweInfo();
             })
         },

@@ -3,7 +3,10 @@
         <loading :active.sync="isLoading" 
         :can-cancel="false" 
         :on-cancel="onCancel"
-        :is-full-page="fullPage"></loading>
+        :is-full-page="fullPage"
+
+        :opacity="0.4"
+        />
     </div>
 </template>
  
@@ -15,17 +18,18 @@
     import {mapState} from 'vuex'
     
     export default {
+        name: 'VueLoading',
         data() {
             return {
                 // isLoading: this.$store.state.isLoading,
                 fullPage: true
             }
         }, 
-    computed: {
-        isLoading: function() { // computed property will be updated when async call resolves
-            return this.$store.state.isLoading;
-        }
-    },
+        computed: {
+            isLoading: function() { // computed property will be updated when async call resolves
+                return this.$store.state.isLoading;
+            }
+        },
     //   watch: { // watch changes here
     //     isLoading: function(newValue, oldValue) {
     //       // apply your logic here, e.g. invoke your listener function
@@ -41,4 +45,13 @@
             }
         }
     }
-</script> 
+</script>
+<style lang="scss">
+.vld-overlay .vld-background {
+    color: white;
+    background-color: black;
+}
+.vld-icon svg {
+    stroke: wheat;
+}
+</style>
