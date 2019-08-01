@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Hello Webmakers :)</h2>
-        <router-link :to="{ name: 'staty'}" class="router-link">Switch to STATS</router-link>
+        <router-link :to="{ name: 'staty'}" class="router-link float-right mr-4">>>>>>>> Switch to STATS</router-link>
         <Gmap></Gmap>
     </div>
 </template>
@@ -15,5 +15,7 @@
 </script>
 
 <style scoped>
-
+a.router-link {
+    margin-top: -7em;
+}
 </style>

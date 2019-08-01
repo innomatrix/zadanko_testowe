@@ -51,7 +51,6 @@ export default new Vuex.Store({
                 return axios.get('/getweather/'+ payload.lat + '/' + payload.lng + '/' + payload.persist)
                     .then(response => {
                         payload.persist ? dispatch('setWeatherInfo',response.data.response) : dispatch('setUserWeatherInfo',response.data.response)
-                        // dispatch('setIsLoading',false)
                     })
                     .catch(error => {
                         console.log(error.response.data)

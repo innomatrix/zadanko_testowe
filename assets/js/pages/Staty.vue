@@ -1,15 +1,20 @@
 <template>
     <div>
         <h2>Druga strona => ze statami :)</h2>
-        <router-link :to="{ name: 'index'}"  class="router-link">Back to INDEX</router-link>
+        <router-link :to="{ name: 'index'}"  class="router-link float-right mr-4">>>>>>>> Back to INDEX</router-link>
         <div id="userLocationData">
             <span id="koordynaty">Twoja lokalizacja: Lat= {{location.lat || 'brak danych'}} log= {{location.lng || 'brak danych'}}</span><br>
             <span v-if="userWeatherInfo.main" id="temperatura">Twoja pogoda: {{ userWeatherInfo.main.temp  || 'brak danych' }}  &#x2103;</span>
             <span v-if="userWeatherInfo.weather" id="zachmurzenie"> - {{ userWeatherInfo.weather[0].main || '' }}</span>
 
-            <div id="people">
-            <v-server-table url="/summary" ref="last_requests" :columns="columns" :options="options" @loading="onLoading" @loaded="onLoaded"></v-server-table>
+            <div id="tabelka">
+                <v-server-table url="/summary" ref="last_requests" :columns="columns" :options="options" @loading="onLoading" @loaded="onLoaded"></v-server-table>
             </div>            
+            <span id="avg_temp">Srednia temp: {{ avgTemp }}  &#x2103;</span><br/>
+            <span id="min_temp">Min temp: {{ minTemp }}  &#x2103;</span><br/>
+            <span id="max_temp">Max temp: {{ maxTemp }}  &#x2103;</span><br/>
+            <span id="totalRecords">Liczba rekordow: {{ totalRecords }}</span><br/>
+            <span id="mostCommonSearchCity">Najpopularniejsze miasto: {{ mostCommonSearchCity }}</span>
 
         </div>
     </div>
@@ -27,7 +32,7 @@
         components: {VueGeolocation, ServerTable},
         data() { 
             return{
-                
+                minTemp: '', maxTemp: '', avgTemp: '', totalRecords: '', mostCommonSearchCity: '',
                 columns: ['city', 'country', 'curtemp', 'description','time', 'distance'],
                 options: {
                     headings: {
@@ -45,11 +50,18 @@
                             this.dispatch('error', e);
                         }.bind(this));
                     },
-                    // requestKeys: {page:'p'}, 
                     responseAdapter: function (data) {
                         let last_requests = data.data.response.last_requests;
-                        if(this.$parent.location.lat && this.$parent.location.lng) {                    // w Gmaps i naszej funkcji haversine() mamy lon a OW lng :) trzeba zwrocic uwage na ten detal 
-                            let locationFrom = { ['lat'] : this.$parent.location.lat };
+
+                        this.$parent.minTemp =  parseFloat(data.data.response.statistic.max_maxtemp);
+                        this.$parent.maxTemp =  parseFloat(data.data.response.statistic.max_maxtemp);
+                        this.$parent.avgTemp =  (parseFloat(data.data.response.statistic.avg_mintemp) + parseFloat(data.data.response.statistic.avg_maxtemp)) / 2; // srednia z min i max sredniej :D
+                        this.$parent.totalRecords = parseInt(data.data.response.statistic.total_items);
+                        this.$parent.mostCommonSearchCity =  data.data.response.statistic.city + '(' + data.data.response.statistic.most_used + ')';
+
+                        // w GMaps i naszej funkcji haversine() mamy lon a OW lng :) trzeba zwrocic uwage na ten detal 
+                        if(this.$parent.location.lat && this.$parent.location.lng) {
+                            let locationFrom = { ['lat'] : this.$parent.location.lat }; // location jest ze STATE(store)
                             locationFrom['lon'] = this.$parent.location.lng;
                             
                             for (let entry of last_requests) {
@@ -82,9 +94,6 @@
                 console.log('brak pozycji... :(');
                 this.setIsLoading(false);
             }); 
-            // this.getSummary({'page':1}).then((response) => {
-            //     console.log(response);
-            // })
         },
         computed: {...mapState(['userWeatherInfo','location','summary'])},        
         methods: {
@@ -99,26 +108,13 @@
             },
             onLoading: function() {
                 this.setIsLoading(true);
-            },
-            // calcDistances: function() {
-            //             if(this.$parent.location.lat && this.$parent.location.lng) {                    // w Gmaps i naszej funkcji haversine() mamy lon a OW lng :) trzeba zwrocic uwage na ten detal 
-            //                 let locationFrom = { ['lat'] : this.$parent.location.lat };
-            //                 locationFrom['lon'] = this.$parent.location.lng;
-                            
-            //                 for (let entry of last_requests) {
-            //                     let locationTo = { ['lat'] : entry.lat };
-            //                     locationTo['lon'] = entry.log;
-
-            //                     entry['distance'] = this.$parent.haversine(locationFrom, locationTo);
-            //                 }
-            //                 // last_requests.forEach((v, i) => last_requests[i]['distance'] = this.$parent.haversine({v.lat,v.log}, {lat, log}));
-
-            //             } else
-            //                 console.log('Gdzie ta lokacja:')                
-            // }
+            }
         }
     }
 </script>
 
 <style scoped>
+a.router-link {
+    margin-top: -7em;
+}
 </style>

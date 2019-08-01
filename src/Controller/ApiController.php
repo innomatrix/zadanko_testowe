@@ -20,18 +20,18 @@ class ApiController extends Controller
         curl_setopt($ch, CURLOPT_URL, 'api.openweathermap.org/data/2.5/weather?lat=' . $lat .
             '&lon=' . $log . '&units=metric&lang=' . $this->getParameter('app.openweathermap_lang') .
             '&appid=' . $this->getParameter('app.openweathermap_api'));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json')); // Assuming you're requesting JSON
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response_api = curl_exec($ch);
 
-        //get status requesting data
-        $info = curl_getinfo($ch);
+        $data = null;
 
-        //Convert JSON to Array
-        $data = json_decode($response_api, true);
+        $info = curl_getinfo($ch);
 
         if (!curl_errno($ch) && $info['http_code'] == 200) {
             $date = new \DateTime();
+
+            $data = json_decode($response_api, true);
 
             if (!isset($data['sys']['country'])) {
                 $data['sys']['country'] = 'No country';
