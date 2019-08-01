@@ -4,7 +4,7 @@
         :center="{lat:50.174, lng:18.915}"
         :zoom="14"
         map-type-id="terrain"
-        style="width: 500px; height: 300px; color: black;"
+        style="width: 100%; height: 600px; color: black;"
         @click="dajMnieTenMarker($event)">
 
         <GmapInfoWindow 

@@ -7,6 +7,7 @@ import axios from 'axios'
 import VueLoading from "./components/layout/overlay"
 import VueGeolocation from 'vue-browser-geolocation'
 import {ServerTable, Event} from 'vue-tables-2';
+// import Turf from 'Turf';
 
 require('./app.scss');
 
@@ -24,8 +25,29 @@ Vue.use(VueLoading, {
     loader: 'dots'
 })
 Vue.component('vue-loading', VueLoading)
-
 Vue.use(ServerTable);
+
+Vue.mixin({
+  methods: {
+    toRad: function (value) {
+        return value * Math.PI / 180;
+    },
+    haversine: function(point1, point2) {
+        var R = 6371; // earth radius in km
+        var dLat = this.toRad(point2.lat-point1.lat);
+        var dLon = this.toRad(point2.lon-point1.lon);
+        var lat1 = this.toRad(point1.lat);
+        var lat2 = this.toRad(point2.lat);
+
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+                Math.sin(dLon/2) * Math.sin(dLon/2) *
+                Math.cos(lat1) * Math.cos(lat2);
+        
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        return R * c;
+    }
+  }
+})
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
