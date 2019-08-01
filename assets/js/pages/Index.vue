@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Hello Webmasters :)</h2>
+        <h2>Hello Webmakers :)</h2>
         <router-link :to="{ name: 'staty'}" class="router-link">Switch to STATS</router-link>
         <Gmap></Gmap>
     </div>
