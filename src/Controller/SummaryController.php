@@ -11,16 +11,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class SummaryController extends Controller
 {
     /**
-     * @Route("summary/{page}", defaults={"page"=1}, requirements={"page"="\d+"})
+     * @Route("summary/{page}/{limit}", defaults={"page"=1, "limit"=10}, requirements={"page"="\d+","limit"="\d+"})
      */
-    public function indexAction()
+    public function indexAction($page, $limit)
     {
         $repository = $this->getDoctrine()
             ->getRepository(Api::class);
 
         $query = $repository->createQueryBuilder('last')
             ->orderBy('last.id', 'DESC')
-            ->setMaxResults(10)
+            ->setFirstResult(($page-1) * $limit)
+            ->setMaxResults($limit)
             ->getQuery();
 
         // tu uzyjemy wlasnego HYDRATORA zeby splaszczyc obiekt DateTime z kolumy 'time' do STRING w wybranym formacie ("2019-07-31 15:03:19 (UTC)")

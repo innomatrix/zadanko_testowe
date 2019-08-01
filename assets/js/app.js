@@ -6,13 +6,12 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import axios from 'axios'
 import VueLoading from "./components/layout/overlay"
 import VueGeolocation from 'vue-browser-geolocation'
-import {ClientTable, Event} from 'vue-tables-2';
+import {ServerTable, Event} from 'vue-tables-2';
 
 require('./app.scss');
 
 Vue.use(VueGoogleMaps, {load: {key: 'AIzaSyCmcW96oFTb8y_FEdbigtO8ndFAb86Ps4c'}})
 Vue.use(VueGeolocation)
-Vue.use(ClientTable);
 Vue.use(VueLoading, {
     color: '#000',
     opacity: 0.9,
@@ -26,7 +25,7 @@ Vue.use(VueLoading, {
 })
 Vue.component('vue-loading', VueLoading)
 
-Vue.use(ClientTable);
+Vue.use(ServerTable);
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
