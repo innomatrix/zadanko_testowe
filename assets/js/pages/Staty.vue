@@ -53,7 +53,7 @@
                     responseAdapter: function (data) {
                         let last_requests = data.data.response.last_requests;
 
-                        this.$parent.minTemp =  parseFloat(data.data.response.statistic.max_maxtemp);
+                        this.$parent.minTemp =  parseFloat(data.data.response.statistic.min_mintemp);
                         this.$parent.maxTemp =  parseFloat(data.data.response.statistic.max_maxtemp);
                         this.$parent.avgTemp =  (parseFloat(data.data.response.statistic.avg_mintemp) + parseFloat(data.data.response.statistic.avg_maxtemp)) / 2; // srednia z min i max sredniej :D
                         this.$parent.totalRecords = parseInt(data.data.response.statistic.total_items);
