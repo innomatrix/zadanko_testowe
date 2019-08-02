@@ -3,7 +3,7 @@
         <h2>Druga strona => ze statami :)</h2>
         <router-link :to="{ name: 'index'}"  class="router-link float-right mr-4">>>>>>>> Back to INDEX</router-link>
         <div id="userLocationData">
-            <span id="koordynaty">Twoja lokalizacja: Lat= {{location.lat || 'brak danych'}} log= {{location.lng || 'brak danych'}}</span><br>
+            <span id="koordynaty">Twoja lokalizacja: Lat= {{location.lat || 'brak danych'}} log= {{location.lng || ''}} {{  ( userWeatherInfo.name ) || ''}}</span><br>
             <span v-if="userWeatherInfo.main" id="temperatura">Twoja pogoda: {{ userWeatherInfo.main.temp  || 'brak danych' }}  &#x2103;</span>
             <span v-if="userWeatherInfo.weather" id="zachmurzenie"> - {{ userWeatherInfo.weather[0].main || '' }}</span>
 
