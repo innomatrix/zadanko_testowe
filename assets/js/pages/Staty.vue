@@ -53,11 +53,11 @@
                     responseAdapter: function (data) {
                         let last_requests = data.data.response.last_requests;
 
-                        this.$parent.minTemp =  parseFloat(data.data.response.statistic.min_mintemp);
-                        this.$parent.maxTemp =  parseFloat(data.data.response.statistic.max_maxtemp);
-                        this.$parent.avgTemp =  (parseFloat(data.data.response.statistic.avg_mintemp) + parseFloat(data.data.response.statistic.avg_maxtemp)) / 2; // srednia z min i max sredniej :D
-                        this.$parent.totalRecords = parseInt(data.data.response.statistic.total_items);
-                        this.$parent.mostCommonSearchCity =  data.data.response.statistic.city + '(' + data.data.response.statistic.most_used + ')';
+                        this.$parent.minTemp =  parseFloat(data.data.response.statistic.min_mintemp) || 'brak danych';
+                        this.$parent.maxTemp =  parseFloat(data.data.response.statistic.max_maxtemp) || 'brak danych';
+                        this.$parent.avgTemp =  ((parseFloat(data.data.response.statistic.avg_mintemp) + parseFloat(data.data.response.statistic.avg_maxtemp)) / 2)  || 'brak danych'; // srednia z min i max sredniej :D
+                        this.$parent.totalRecords = parseInt(data.data.response.statistic.total_items)  || 'brak danych';
+                        this.$parent.mostCommonSearchCity =  (data.data.response.statistic.city  || 'brak danych') + '(' + (data.data.response.statistic.most_used   || 'brak danych') + ')';
 
                         // w GMaps i naszej funkcji haversine() mamy lon a OW lng :) trzeba zwrocic uwage na ten detal 
                         if(this.$parent.location.lat && this.$parent.location.lng) {
