@@ -1,7 +1,7 @@
 <template>
     <div>
+        <router-link :to="{ name: 'staty'}" class="router-link float-right mr-4"></router-link>
         <h2>Hello Webmakers :)</h2>
-        <router-link :to="{ name: 'staty'}" class="router-link float-right mr-4">>>>>>>> Switch to STATS</router-link>
         <Gmap></Gmap>
     </div>
 </template>
@@ -15,7 +15,21 @@
 </script>
 
 <style scoped>
-a.router-link {
-    margin-top: -7em;
+@media screen and (min-width: 731px) {
+a.router-link:before {
+    position: absolute;
+    top: 2em;
+    right: 2em;
+    content: '>>>>>>> Switch to STATS';
+}
+}
+@media screen and (max-width: 730px) {
+    a.router-link:before {
+        content: '\f080';
+        top: 1em;
+        right: 0.5em;
+        color: white;       
+        font-family: FontAwesome;               
+    }
 }
 </style>

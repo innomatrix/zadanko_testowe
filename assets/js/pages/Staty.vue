@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Druga strona => ze statami :)</h2>
-        <router-link :to="{ name: 'index'}"  class="router-link float-right mr-4">>>>>>>> Back to INDEX</router-link>
+        <router-link :to="{ name: 'index'}"  class="router-link float-right mr-4"></router-link>
         <div id="userLocationData">
             <span id="koordynaty">Twoja lokalizacja: Lat= {{location.lat || 'brak danych'}} log= {{location.lng || ''}} {{  ( userWeatherInfo.name ) || ''}}</span><br>
             <span v-if="userWeatherInfo.main" id="temperatura">Twoja pogoda: {{ userWeatherInfo.main.temp  || 'brak danych' }}  &#x2103;</span>
@@ -114,7 +114,21 @@
 </script>
 
 <style scoped>
-a.router-link {
-    margin-top: -7em;
+    a.router-link:before {
+        position: absolute;
+        top: 2em;
+        right: 2em;
+        content: '>>>>>>> Switch to INDEX';
+
+    }
+
+@media screen and (max-width: 730px) {
+    a.router-link:before {
+        content: '\f015';
+        top: 1em;
+        right: 0.5em;
+        color: white; 
+        font-family: FontAwesome;                
+    }
 }
 </style>

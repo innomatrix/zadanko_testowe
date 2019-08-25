@@ -7,7 +7,13 @@ import axios from 'axios'
 import VueLoading from "./components/layout/overlay"
 import VueGeolocation from 'vue-browser-geolocation'
 import {ServerTable, Event} from 'vue-tables-2';
-// import Turf from 'Turf';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faUserSecret)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 require('./app.scss');
 
